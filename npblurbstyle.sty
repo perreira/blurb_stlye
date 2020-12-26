@@ -1,0 +1,94 @@
+%% LaTeX / LuaLaTeX Class for Blurb Books
+%% Please adapt to your needs, no guarantee that anything works
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{npblurbstyle}[2012/07/12 v0.1a style file]
+
+%% Load Lua Specific Stuff
+\ifcsname directlua\endcsname
+	
+	% Fontspec to address the OS Fonts directly
+	\RequirePackage{fontspec}
+	\RequirePackage{luatexbase}
+	\RequirePackage{metalogo}
+	\RequirePackage{luacolor}
+%	\RequirePackage{luacode}
+ \else
+    \RequirePackage[utf8]{inputenc}
+\fi
+
+% fancyhdr for headings and pagestyles
+\RequirePackage{fancyhdr}
+
+% Microtype. This needs some tweaking below, see http://thorsten-ries.net/node/23
+\RequirePackage[protrusion=true,expansion]{microtype}
+% titlesec provides a nice way to mess around with headlines
+\RequirePackage{titlesec}
+\RequirePackage{booktabs}  % better tables
+\RequirePackage{varioref}  % better references "on page..."
+\RequirePackage{multicol}  % two or more columns
+
+% For testing we want useless text
+%\RequirePackage{lipsum}
+
+%% SETTINGS %%
+%% If you want to adapt how stuff looks, please change these settings %%
+%% These can be overridden in your document. These are my defaults...
+
+%% LuaLaTeX required settings
+\ifcsname directlua\endcsname
+%% Tweaking for Microtype, see above
+\newfontfeature{Microtype}{protrusion=default;expansion=default;}
+\directlua{fonts.protrusions.setups.default.factor=.5}
+%% Now we are setting the fonts we want to use
+%\fontspec [⟨font features⟩] {⟨font name⟩} 
+%\setmainfont[Microtype,Ligatures=TeX]{Chaparral Pro}
+\setmainfont[Microtype,Ligatures=TeX,Language=German]{Linux Libertine O}
+\setsansfont[Microtype,Ligatures=TeX,SmallCapsFont={Lisboa Sans SC},Scale=MatchLowercase]{Lisboa Sans OSF}
+\setmonofont[Ligatures=TeX,Language=German,Scale=MatchLowercase]{Latin Modern Mono Light}
+%\setmonofont [⟨font features⟩] {⟨font name⟩} 
+%\newfontfamily{\chapternofont}[Scale=2]{Lisboa Sans Expert}
+\newfontfamily{\chapternofont}[Scale=2]{Romeral inline}
+
+\newfontfamily{\fancyfont}{iNked God}
+
+
+% formatting the headlines
+%\titleformat{⟨command⟩}[⟨shape⟩]{⟨format⟩}{⟨label⟩}{⟨sep⟩}{⟨before-code⟩}[⟨after-code⟩]
+\titleformat{\chapter}[display]%
+{\color{headcolor1}\sffamily\huge\bfseries}%
+{\filleft\color{headcolor4}\Huge\chapternofont\thechapter\vspace{-0.50em}}%
+{0em}%
+{}%
+[\vspace{1ex}%
+\titlerule]
+\titleformat{\section}
+{\color{headcolor2}\sffamily\large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}
+{\color{headcolor3}\sffamily\large\bfseries\itshape}{\thesubsection}{1em}{}
+
+\fi
+
+%% Define Colors
+%% MUST BE CMYK for PDFX/1-a
+%\definecolor{textcolor}{cmyk}{0,0,0,1}
+\definecolor{textcolor}{cmyk}{0,0,0,1}
+\definecolor{headcolor1}{cmyk}{0,0.3,0.55,0.42}
+\definecolor{headcolor2}{cmyk}{0,0.11,0.3,0.5}
+\definecolor{headcolor3}{cmyk}{0,0.11,0.3,0.36}
+\definecolor{headcolor4}{cmyk}{0,0.13,0.25,0}
+\definecolor{highlight}{cmyk}{0,0.5,0.73,0.02}
+\definecolor{boxcolor}{cmyk}{0.17,0.02,0,0.05}
+
+%% Header and Footer
+\fancyhead{}
+\fancyhead[RO,LE]{\iffloatpage{}{\leftmark}}
+\fancyfoot{}
+\fancyfoot[RO,LE]{\iffloatpage{}{\thepage}}
+\pagestyle{fancy}
+\renewcommand{\chaptermark}[1]{% 
+\markboth{\color{headcolor1}\sffamily\scshape{#1}}{}}
+\renewcommand{\headrulewidth}{\iffloatpage{0pt}{0.4pt}}
+
+%% ENVIRONMENTS %%
+\newmdenv[backgroundcolor=boxcolor,skipabove=1em,skipbelow=1em]{sumbox}
+\newmdenv[backgroundcolor=highlight,skipabove=1em,skipbelow=1em]{alertbox}

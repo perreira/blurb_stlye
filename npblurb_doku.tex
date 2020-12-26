@@ -1,0 +1,261 @@
+\documentclass[english,10pt,bbook=pocketbig,inner=1cm,outer=2.5cm]{npblurb}
+
+\usepackage{npblurbstyle}
+%% Set the language(s) of your document, uses global options
+\usepackage{babel}
+\usepackage{url}
+\usepackage{fancyvrb}
+%% Define nice quotes
+%\usepackage[autostyle=true,babel=once,german=guillemets]{csquotes}
+
+%% Document Info %%
+\title{The {\tt npblurb} document class}
+\author{Nils Pickert}
+\date{}
+\pdfsubject{LaTeX Class for Blurb}
+\pdfkeywords{Blurb, LaTeX, POD, Photobook}
+
+%% Graphics options
+\graphicspath{{images/}}
+\newcommand{\HRule}[1]{\hfill \rule{0.2\linewidth}{#1}} % Horizontal rule at the bottom of the page, adjust width here
+
+
+
+\DefineShortVerb{\|}
+
+
+\begin{document}
+
+\begin{titlepage}
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\colorbox{headcolor4}{
+	\parbox[t]{\linewidth}{
+	\begin{center}
+		\Huge\fancyfont\color{headcolor1}
+		\vspace*{1.4cm} % Space between the start of the title and the top of the grey box
+		
+		A document class \\
+		for Blurb Books
+		
+		\vspace*{4cm} % Space between the end of the title and the bottom of the grey box
+	\end{center}
+	}
+}
+
+%----------------------------------------------------------------------------------------
+
+\vfill % Space between the title box and author information
+
+%----------------------------------------------------------------------------------------
+%	AUTHOR NAME AND INFORMATION SECTION
+%----------------------------------------------------------------------------------------
+
+{\centering \large 
+\hfill Dr. Nils Pickert \\
+%\hfill University Name \\
+%\hfill Department Name \\
+\hfill \url{http://nils.mipi.de} \\
+
+\HRule{1pt}} % Horizontal line, thickness changed here
+
+%----------------------------------------------------------------------------------------
+
+\clearpage % Whitespace to the end of the page\end{titlepage}
+\end{titlepage}
+
+\tableofcontents
+\chapter{Introduction}
+The class {\tt npblurb} is an extension to the book class and provides the settings for printing books with Blurb (\url{http://www.blurb.com}). Blurb describes itself on it's homepage\footnote{Found on \url{http://www.blurb.com/about}}:
+
+\begin{quotation}
+Blurb is a company and a community that believes passionately in the joy of books – reading them, making them, sharing them, and selling them.
+
+Holding a finished book with your name on the cover is a truly amazing feeling; it’s one of those experiences everyone should have. As software people, designers, and publishing professionals at the top of our game, we realized something both incredible and obvious: there’s no good reason why it should take tons of time, technical skills, big bucks, or friends in high places to publish a book. Or a zillion books, for that matter.
+
+So we put our minds together, and developed a creative publishing service simple and smart enough to make anyone an author – every blogger, cook, photographer, parent, traveler, poet, pet owner, marketer, everyone. (This means you.)
+\end{quotation}
+
+Blurb provides a possibility to upload PDFs for printing books, but these have to have certain formats and need to follow the PDF X/3 standard. This \LaTeX\ class tweaks the PDF settings to comply with the standard and provides you format presets for the various book sizes printed by Blurb (for example, this document is in the format for a large pocket book).
+
+This class is in no way encouraged by Blurb, the author has no affiliation with Blurb (except having printed a couple of books there).
+
+\begin{alertbox}
+This class and the accompanying style file has not been really tested, so things might not work as expected. The author takes no responsibility that the documents can be printed by blurb nor that they actually look good.
+\end{alertbox}
+
+The class only allows for writing the body of the book. The cover still has to be designed using other software, for example using Blurbs own tool or the Blurb Plugin for Adobe InDesign.
+
+\chapter{Usage}
+\section{Prerequisites}
+The class includes the Blurb ICC color profile into your document. It expects the ICC file to reside in the same directory as your \LaTeX-file. You can download the color profile from \url{http://www.blurb.com/resources/color_management}.
+\section{Loading the Class}
+
+You load the class like you would load any other document class by putting at the beginning of your document:
+\begin{Verbatim}
+\documentclass[bbook=<format>,<arguments>]{npblurb}
+\end{Verbatim}
+The value for {\tt bbook} defines the final paper size and has to be set to one of the following options (book paper refers to paper which is more appropriate for text printing, photo paper refers to paper suitable for high quality color image printing):
+\begin{itemize}
+\setlength{\itemsep}{0pt plus0pt minus0pt}
+\item {\tt pocket} for the standard pocket book size (5\times8 inch, 13\times20 cm, book paper)
+\item {\tt pocketbig} for the large pocket book size (6\times9 inch, 15\times23 cm, book paper)
+\item {\tt square} for the standard square book size (7\times7 inch, 18\times18 cm, photo paper)
+\item {\tt port} for the portrait book size (8\times10 inch, 20\times25 cm, photo paper)
+\item {\tt land} for the landscape book size (10\times8 inch, 25\times20 cm, photo paper)
+\item {\tt landbig} for the large landscape book size (13\times11 inch, 33\times28 cm, photo paper)
+\item {\tt squarebig} for the large square book size (12\times12 inch, 30\times30 cm, photo paper)
+\end{itemize}
+
+The class accepts two other optional arguments itself, with which you can tune your layout:
+\begin{itemize}
+\setlength{\itemsep}{0pt plus0pt minus0pt}
+\item {\tt inner=<size>} sets the inner page border to {\tt <size>}
+\item {\tt inner=<size>} sets the outer page border to {\tt <size>}
+\end{itemize}
+
+All other options are passed to packages loaded by the document and the {\tt book} class loaded by the {\tt npblurp} class. For example you can set your font size here and set a language for babel and other packages. You might notice that the book class complains about unused options, as also the options for the {\tt npblurb} class are passed on to {\tt book}\ldots
+
+\begin{alertbox}
+Some options passed to other packages or the book class might interfere with the {\tt npblurb} class. 
+\end{alertbox}
+
+\chapter{Features and Commands}
+The class loads the packages graphicx, hyperref, scrextend and dpfloat. For the respective features please see the documentation of these packages. Hyperref is loaded in draft mode, as PDF X/3 requires all features disabled:
+\begin{Verbatim}
+% hyperref for PDF, options needed for PDF X/1-a
+\RequirePackage[unicode=true,draft,bookmarks=false]%
+   {hyperref}
+\end{Verbatim}
+
+When the typeset document has an odd number of pages, the class automatically adds an empty page at the end, so that the complete number of pages is even (this is required by Blurb).
+
+\section{Images}
+The class defines two commands for easy inclusion of pictures:
+\begin{itemize}\setlength{\itemsep}{0pt plus0pt minus0pt}
+\item |\fullpageimage{<filename>}| for a floating full page image
+\item |\twopageimage{<filename>}| for a two page image spread (also floating)
+\end{itemize}
+\fullpageimage{sample_portrait}
+Both commands are using features from the |dpfloat| package for full page size. They are based on a |figure*| environment, so they can also be used in multicol environments. However sometimes the |\twopageimage| does not lead to the expected result in multicol mode, the pages are not facing each other. In this case try moving the command inside the text earlier or later, till the images spread on facing pages.
+
+
+For the full size picture pages not to have text on the header and footer, you should use the package |fancyhdr| with settings like:
+\begin{Verbatim}
+\fancyhead{}
+\fancyhead[RO,LE]{\iffloatpage{}{\leftmark}}
+\fancyfoot{}
+\fancyfoot[RO,LE]{\iffloatpage{}{\thepage}}
+\pagestyle{fancy}
+\end{Verbatim} 
+
+The images are set to use the full width of the page (including bleeding). If the scaled image is not using the full page height, \LaTeX\ will add white space on top and below according to the normal \LaTeX\ rules (see the examples in this document). If the scaled image is higher than the full page height the lower end will be cut off (the top left corner of the image will always be on the page, except the 3mm bleeding). As the functions are using some dirty tricks to figure out if the image is on a left or a right page, {\color{highlight} it is needed to run \LaTeX\ twice!}
+
+The normal |figure| and |figure*| environments work as usual, additional packages like |wrapfig| were not tested, but should work.
+
+\begin{sumbox}
+PDF X/3 understands color in CMYK and in RGB. If you include images, you should make sure that they are using RGB, sRGB or CMYK color space. TIFF images are not supported, you should only use JPEG or PDF images (other formats might or might not work). When you include PDF images, ensure that these PDFs include the fonts used, as all fonts need to be included in the document.
+\end{sumbox}
+\twopageimage{sample_landscape}
+
+\chapter{Additional Settings}
+You can use this class with various additional packages. This document was set using \LuaLaTeX\ and the following style loaded:
+\begin{Verbatim}
+%% LaTeX / LuaLaTeX style for Blurb Books
+%% Please adapt to your needs, 
+%% no guarantee that anything works
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{npblurbstyle}[2012/07/12 v0.1a style file]
+%% Load Lua Specific Stuff
+\ifcsname directlua\endcsname
+	% Fontspec to address the OS Fonts directly
+	\RequirePackage{fontspec}
+	\RequirePackage{luatexbase}
+	\RequirePackage{metalogo}
+	\RequirePackage{luacolor}
+ \else
+    \RequirePackage[utf8]{inputenc}
+\fi
+
+% fancyhdr for headings and pagestyles
+\RequirePackage{fancyhdr}
+
+% Microtype. This needs some tweaking below, 
+% see http://thorsten-ries.net/node/23
+\RequirePackage[protrusion=true,expansion]{microtype}
+\RequirePackage{titlesec}  % style headlines
+\RequirePackage{booktabs}  % better tables
+\RequirePackage{varioref}  % better references
+\RequirePackage{multicol}  % two or more columns
+
+%% SETTINGS %%
+%% If you want to adapt how stuff looks, 
+%% please change these settings
+
+%% LuaLaTeX required settings
+\ifcsname directlua\endcsname
+%% Tweaking for Microtype, see above
+\newfontfeature{Microtype}%
+  {protrusion=default;expansion=default;}
+\directlua{fonts.protrusions.setups.default.factor=.5}
+%% Now we are setting the fonts we want to use
+\setmainfont[Microtype,Ligatures=TeX,Language=German]%
+            {Linux Libertine O}
+\setsansfont[Microtype,Ligatures=TeX,%
+             SmallCapsFont={Lisboa Sans SC},%
+             Scale=MatchLowercase]{Lisboa Sans OSF}
+\setmonofont[Ligatures=TeX,%
+             Language=German,Scale=MatchLowercase]%
+             {Latin Modern Mono Light}
+\newfontfamily{\chapternofont}[Scale=2]{Romeral inline}
+\newfontfamily{\fancyfont}{iNked God}
+
+% formatting the headlines
+\titleformat{\chapter}[display]%
+{\color{headcolor1}\sffamily\huge\bfseries}%
+{\filleft\color{headcolor4}%
+\Huge\chapternofont\thechapter\vspace{-0.50em}}%
+{0em}%
+{}%
+[\vspace{1ex}%
+\titlerule]
+\titleformat{\section}%
+  {\color{headcolor2}\sffamily\large\bfseries}%
+  {\thesection}{1em}{}
+\titleformat{\subsection}%
+  {\color{headcolor3}\sffamily\large\bfseries\itshape}%
+  {\thesubsection}{1em}{}
+\fi
+
+%% Define Colors
+\definecolor{textcolor}{cmyk}{0,0,0,1}
+\definecolor{headcolor1}{cmyk}{0,0.3,0.55,0.42}
+\definecolor{headcolor2}{cmyk}{0,0.11,0.3,0.5}
+\definecolor{headcolor3}{cmyk}{0,0.11,0.3,0.36}
+\definecolor{headcolor4}{cmyk}{0,0.13,0.25,0}
+\definecolor{highlight}{cmyk}{0,0.5,0.73,0.2}
+\definecolor{boxcolor}{cmyk}{0.17,0.02,0,0.05}
+
+%% Header and Footer
+\fancyhead{}
+\fancyhead[RO,LE]{\iffloatpage{}{\leftmark}}
+\fancyfoot{}
+\fancyfoot[RO,LE]{\iffloatpage{}{\thepage}}
+\pagestyle{fancy}
+\renewcommand{\chaptermark}[1]{% 
+\markboth{\color{headcolor1}\sffamily\scshape{#1}}{}}
+\renewcommand{\headrulewidth}{\iffloatpage{0pt}{0.4pt}}
+
+%% ENVIRONMENTS %%
+\newmdenv[backgroundcolor=boxcolor,%
+  skipabove=1em,skipbelow=1em]%
+  {sumbox}
+\newmdenv[backgroundcolor=highlight,%
+  skipabove=1em,skipbelow=1em]%
+  {alertbox}
+
+\end{Verbatim}
+
+\end{document}
